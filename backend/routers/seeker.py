@@ -3,6 +3,8 @@ from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 import asyncio
 import json
+import io
+import pypdf
 
 from agents.seeker_agent import seeker_agent, SeekerState
 from db.database import get_recent_logs
@@ -17,9 +19,22 @@ async def upload_resume(
 ):
     try:
         content = await file.read()
-        resume_text = content.decode('utf-8')
-    except Exception:
-        raise HTTPException(status_code=400, detail="Could not read file text")
+        
+        # Check if the file is a PDF
+        if file.filename and file.filename.lower().endswith('.pdf'):
+            pdf_reader = pypdf.PdfReader(io.BytesIO(content))
+            resume_text = ""
+            for page in pdf_reader.pages:
+                extracted = page.extract_text()
+                if extracted:
+                    resume_text += extracted + "\n"
+        else:
+            # Fallback to UTF-8 decoding for TXT/MD files
+            resume_text = content.decode('utf-8')
+            
+    except Exception as e:
+        print(f"Upload error: {e}")
+        raise HTTPException(status_code=400, detail="Could not read file text. Please ensure it is a valid PDF or TXT file.")
         
     initial_state = {
         "user_id": user_id,
