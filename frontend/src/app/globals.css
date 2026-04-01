@@ -1,0 +1,99 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --brand-900: #0D0D12;
+    --brand-800: #1A1A26;
+    --brand-700: #24243A;
+    --brand-600: #3D3D5C;
+    --brand-500: #5C5C8A;
+    --brand-400: #7B7BB8;
+    --brand-300: #9B9BD0;
+    --brand-200: #C4C4E8;
+    --brand-100: #E8E8F5;
+    --brand-50: #F4F4FA;
+
+    --accent-main: #635BFF;
+    --accent-light: #EAE9FF;
+    --accent-hover: #4F48E0;
+
+    --green: #0F9D58;
+    --green-light: #E6F5EE;
+    --amber: #F59E0B;
+    --amber-light: #FFF8E6;
+    --red: #EF4444;
+    --red-light: #FEE9E9;
+    --blue: #2563EB;
+    --blue-light: #EBF2FF;
+
+    --surface: #FFFFFF;
+    --surface-2: #F7F7FB;
+    --surface-3: #F0F0F7;
+    --border-strong: #C8C8DF;
+
+    --text-primary: #0D0D12;
+    --text-secondary: #5C5C8A;
+    --text-muted: #9898B8;
+
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+    --radius-full: 9999px;
+
+    --shadow-card: 0 1px 3px rgba(13,13,18,0.06), 0 1px 2px rgba(13,13,18,0.04);
+    --shadow-elevated: 0 4px 20px rgba(13,13,18,0.08), 0 2px 8px rgba(13,13,18,0.04);
+
+    --background: #ECEBF5;
+    --foreground: #0D0D12;
+    --card: #FFFFFF;
+    --card-foreground: #0D0D12;
+    --popover: #FFFFFF;
+    --popover-foreground: #0D0D12;
+    --primary: #635BFF;
+    --primary-foreground: #FFFFFF;
+    --secondary: #F7F7FB;
+    --secondary-foreground: #5C5C8A;
+    --muted: #F0F0F7;
+    --muted-foreground: #9898B8;
+    --accent: #635BFF;
+    --accent-foreground: #FFFFFF;
+    --destructive: #EF4444;
+    --border: #E4E4EF;
+    --input: #E4E4EF;
+    --ring: #635BFF;
+    --radius: 0.625rem;
+  }
+
+  * {
+    border-color: var(--border);
+    outline-color: oklch(from var(--ring) l c h / 50%);
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  html {
+    font-family: var(--font-body), sans-serif;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+.animate-pulse-dot {
+  animation: pulse-dot 1.5s infinite;
+}
