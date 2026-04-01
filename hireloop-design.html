@@ -1,0 +1,1467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HireLoop — Design System & Screens</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --brand-900: #0D0D12;
+    --brand-800: #1A1A26;
+    --brand-700: #24243A;
+    --brand-600: #3D3D5C;
+    --brand-500: #5C5C8A;
+    --brand-400: #7B7BB8;
+    --brand-300: #9B9BD0;
+    --brand-200: #C4C4E8;
+    --brand-100: #E8E8F5;
+    --brand-50:  #F4F4FA;
+
+    --accent-main: #635BFF;
+    --accent-light: #EAE9FF;
+    --accent-hover: #4F48E0;
+
+    --green: #0F9D58;
+    --green-light: #E6F5EE;
+    --amber: #F59E0B;
+    --amber-light: #FFF8E6;
+    --red: #EF4444;
+    --red-light: #FEE9E9;
+    --blue: #2563EB;
+    --blue-light: #EBF2FF;
+
+    --surface: #FFFFFF;
+    --surface-2: #F7F7FB;
+    --surface-3: #F0F0F7;
+    --border: #E4E4EF;
+    --border-strong: #C8C8DF;
+
+    --text-primary: #0D0D12;
+    --text-secondary: #5C5C8A;
+    --text-muted: #9898B8;
+
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+    --radius-full: 9999px;
+
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+
+    --shadow-card: 0 1px 3px rgba(13,13,18,0.06), 0 1px 2px rgba(13,13,18,0.04);
+    --shadow-elevated: 0 4px 20px rgba(13,13,18,0.08), 0 2px 8px rgba(13,13,18,0.04);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: var(--font-body);
+    background: #ECEBF5;
+    color: var(--text-primary);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* ── NAV ── */
+  .app-nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: var(--brand-900);
+    padding: 0 32px;
+    height: 52px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-logo {
+    font-family: var(--font-display);
+    font-size: 18px; font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.3px;
+  }
+  .nav-logo span { color: var(--accent-main); }
+  .nav-tabs {
+    display: flex; gap: 2px;
+    background: rgba(255,255,255,0.07);
+    border-radius: var(--radius-full);
+    padding: 3px;
+  }
+  .nav-tab {
+    font-family: var(--font-body);
+    font-size: 12px; font-weight: 500;
+    color: rgba(255,255,255,0.5);
+    padding: 5px 14px;
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    border: none; background: none;
+    transition: all 0.2s;
+  }
+  .nav-tab.active {
+    background: var(--accent-main);
+    color: #fff;
+  }
+  .nav-right { display: flex; gap: 12px; align-items: center; }
+  .nav-badge {
+    font-size: 11px; font-weight: 500;
+    padding: 3px 10px;
+    border-radius: var(--radius-full);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.7);
+  }
+
+  /* ── LAYOUT ── */
+  .main-wrap {
+    margin-top: 52px;
+    padding: 24px;
+    max-width: 1400px;
+    margin-left: auto; margin-right: auto;
+  }
+
+  .screen { display: none; }
+  .screen.visible { display: block; }
+
+  /* ── SECTION LABEL ── */
+  .section-label {
+    font-family: var(--font-display);
+    font-size: 11px; font-weight: 600;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+    margin-top: 28px;
+  }
+  .section-label:first-child { margin-top: 0; }
+
+  /* ── DESIGN TOKENS DISPLAY ── */
+  .token-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .color-chip {
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .chip-swatch { height: 52px; }
+  .chip-label {
+    padding: 6px 10px;
+    font-size: 11px;
+    color: var(--text-secondary);
+    font-weight: 500;
+  }
+  .chip-hex { font-size: 10px; color: var(--text-muted); }
+
+  /* ── TYPE DISPLAY ── */
+  .type-row {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: baseline; gap: 24px;
+  }
+  .type-meta { min-width: 140px; font-size: 11px; color: var(--text-muted); }
+
+  /* ── SCREENS GRID ── */
+  .screens-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 20px;
+    align-items: start;
+  }
+
+  /* ── SCREEN FRAME ── */
+  .screen-frame {
+    background: var(--surface);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-elevated);
+  }
+  .screen-bar {
+    background: var(--brand-900);
+    padding: 10px 16px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .screen-title {
+    font-family: var(--font-display);
+    font-size: 11px; font-weight: 600;
+    color: rgba(255,255,255,0.6);
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+  }
+  .screen-dots { display: flex; gap: 5px; }
+  .dot { width: 7px; height: 7px; border-radius: 50%; }
+  .dot-r { background: #FF5F56; }
+  .dot-y { background: #FFBD2E; }
+  .dot-g { background: #27C93F; }
+  .screen-body { padding: 0; }
+
+  /* ── SIDEBAR ── */
+  .app-layout { display: flex; min-height: 480px; }
+  .sidebar {
+    width: 56px;
+    background: var(--brand-800);
+    padding: 12px 0;
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+  }
+  .sb-icon {
+    width: 36px; height: 36px;
+    border-radius: var(--radius-md);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .sb-icon.active { background: var(--accent-main); }
+  .sb-icon:not(.active):hover { background: rgba(255,255,255,0.07); }
+  .sb-icon svg { width: 18px; height: 18px; stroke: rgba(255,255,255,0.5); fill: none; }
+  .sb-icon.active svg { stroke: #fff; }
+  .sb-spacer { flex: 1; }
+
+  /* ── CONTENT AREA ── */
+  .content-area { flex: 1; background: var(--surface-2); overflow: hidden; }
+
+  /* ── PAGE HEADER ── */
+  .page-header {
+    padding: 16px 20px 12px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .page-title {
+    font-family: var(--font-display);
+    font-size: 16px; font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.3px;
+  }
+  .page-subtitle { font-size: 12px; color: var(--text-muted); margin-top: 1px; }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-card);
+  }
+
+  /* ── STATS ROW ── */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .stat-cell {
+    background: var(--surface);
+    padding: 12px 16px;
+  }
+  .stat-num {
+    font-family: var(--font-display);
+    font-size: 22px; font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.5px;
+  }
+  .stat-label { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+  .stat-delta {
+    font-size: 10px; font-weight: 500;
+    padding: 2px 6px; border-radius: var(--radius-full);
+    display: inline-block; margin-top: 4px;
+  }
+  .delta-up { background: var(--green-light); color: var(--green); }
+  .delta-down { background: var(--red-light); color: var(--red); }
+
+  /* ── JOB CARD ── */
+  .job-list { padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+  .job-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 12px 14px;
+    cursor: pointer;
+    transition: border-color 0.15s;
+  }
+  .job-card:hover { border-color: var(--accent-main); }
+  .job-card.selected { border-color: var(--accent-main); background: var(--accent-light); }
+  .job-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+  .job-title-text {
+    font-family: var(--font-display);
+    font-size: 13px; font-weight: 600;
+    color: var(--text-primary);
+  }
+  .job-company { font-size: 11px; color: var(--text-secondary); margin-top: 1px; }
+  .score-pill {
+    font-size: 12px; font-weight: 600;
+    padding: 3px 8px;
+    border-radius: var(--radius-full);
+    white-space: nowrap; flex-shrink: 0;
+  }
+  .score-high { background: var(--green-light); color: var(--green); }
+  .score-mid { background: var(--amber-light); color: #B45309; }
+  .score-low { background: var(--red-light); color: var(--red); }
+  .job-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
+  .tag {
+    font-size: 10px; font-weight: 500;
+    padding: 2px 7px;
+    border-radius: var(--radius-full);
+    background: var(--surface-3);
+    color: var(--text-secondary);
+    border: 1px solid var(--border);
+  }
+  .tag.match { background: var(--green-light); color: var(--green); border-color: transparent; }
+  .tag.gap { background: var(--red-light); color: var(--red); border-color: transparent; }
+
+  /* ── AGENT FEED ── */
+  .agent-feed { padding: 12px; display: flex; flex-direction: column; gap: 6px; }
+  .feed-item { display: flex; gap: 10px; align-items: flex-start; }
+  .feed-line {
+    display: flex; flex-direction: column; align-items: center;
+    gap: 0;
+  }
+  .feed-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0; margin-top: 4px;
+  }
+  .feed-connector { width: 1px; background: var(--border); flex: 1; min-height: 20px; }
+  .feed-content { flex: 1; padding-bottom: 6px; }
+  .feed-action { font-size: 12px; font-weight: 500; color: var(--text-primary); }
+  .feed-detail { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
+  .feed-time { font-size: 10px; color: var(--text-muted); }
+  .pulse { animation: pulse 1.5s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+  /* ── BUTTON ── */
+  .btn {
+    font-family: var(--font-body);
+    font-size: 12px; font-weight: 500;
+    padding: 7px 14px;
+    border-radius: var(--radius-md);
+    border: none; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 5px;
+    transition: all 0.15s;
+  }
+  .btn-primary { background: var(--accent-main); color: #fff; }
+  .btn-primary:hover { background: var(--accent-hover); }
+  .btn-ghost {
+    background: transparent; color: var(--text-secondary);
+    border: 1px solid var(--border);
+  }
+  .btn-ghost:hover { background: var(--surface-3); }
+  .btn-success { background: var(--green-light); color: var(--green); }
+  .btn-danger { background: var(--red-light); color: var(--red); }
+  .btn-sm { padding: 4px 10px; font-size: 11px; }
+
+  /* ── KANBAN ── */
+  .kanban { display: flex; gap: 8px; padding: 12px; overflow-x: auto; }
+  .kanban-col { min-width: 130px; flex-shrink: 0; }
+  .kanban-head {
+    font-size: 10px; font-weight: 600; letter-spacing: 0.6px;
+    text-transform: uppercase; color: var(--text-muted);
+    padding: 0 2px 8px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .k-count {
+    font-size: 10px; font-weight: 600;
+    padding: 1px 6px; border-radius: var(--radius-full);
+    background: var(--surface-3); color: var(--text-muted);
+  }
+  .kanban-cards { display: flex; flex-direction: column; gap: 6px; }
+  .k-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 8px 10px;
+    font-size: 11px;
+  }
+  .k-company { font-weight: 600; color: var(--text-primary); }
+  .k-role { color: var(--text-muted); margin-top: 1px; font-size: 10px; }
+  .k-date { font-size: 10px; color: var(--text-muted); margin-top: 4px; }
+  .k-status-dot {
+    display: inline-block; width: 6px; height: 6px;
+    border-radius: 50%; margin-right: 4px;
+  }
+
+  /* ── CANDIDATE ROW ── */
+  .candidate-list { padding: 0; }
+  .cand-row {
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 12px;
+    cursor: pointer; transition: background 0.1s;
+  }
+  .cand-row:hover { background: var(--surface-2); }
+  .cand-avatar {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: var(--brand-100);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 600; color: var(--brand-500);
+    flex-shrink: 0;
+  }
+  .cand-name { font-size: 13px; font-weight: 500; color: var(--text-primary); }
+  .cand-role { font-size: 11px; color: var(--text-muted); }
+  .cand-meta { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+  .rank-badge {
+    font-size: 10px; font-weight: 700;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .rank-1 { background: #FEF3C7; color: #92400E; }
+  .rank-2 { background: var(--surface-3); color: var(--text-secondary); }
+  .rank-3 { background: var(--surface-3); color: var(--text-secondary); }
+  .override-btn {
+    font-size: 10px; padding: 3px 8px;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--border);
+    background: none; color: var(--text-muted);
+    cursor: pointer;
+  }
+  .override-btn:hover { border-color: var(--accent-main); color: var(--accent-main); }
+
+  /* ── SCORECARD ── */
+  .scorecard { padding: 14px 16px; }
+  .score-ring-wrap { display: flex; align-items: center; gap: 16px; margin-bottom: 14px; }
+  .score-ring {
+    position: relative; width: 64px; height: 64px; flex-shrink: 0;
+  }
+  .ring-text {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+    text-align: center;
+  }
+  .ring-num {
+    font-family: var(--font-display);
+    font-size: 18px; font-weight: 700;
+    color: var(--text-primary);
+    display: block; line-height: 1;
+  }
+  .ring-sub { font-size: 9px; color: var(--text-muted); }
+  .score-breakdown { flex: 1; }
+  .breakdown-row { display: flex; align-items: center; gap: 6px; margin-bottom: 5px; }
+  .breakdown-label { font-size: 10px; color: var(--text-muted); width: 70px; flex-shrink: 0; }
+  .breakdown-bar { flex: 1; height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
+  .breakdown-fill { height: 100%; border-radius: 2px; }
+  .breakdown-val { font-size: 10px; font-weight: 500; color: var(--text-secondary); width: 24px; text-align: right; }
+
+  /* ── AUDIT LOG ── */
+  .audit-log { padding: 10px 14px; }
+  .audit-row {
+    display: flex; gap: 10px; padding: 7px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 11px;
+  }
+  .audit-row:last-child { border-bottom: none; }
+  .audit-icon {
+    width: 20px; height: 20px; border-radius: var(--radius-sm);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; flex-shrink: 0; margin-top: 1px;
+  }
+  .ai-action { background: var(--accent-light); color: var(--accent-main); }
+  .human-action { background: var(--green-light); color: var(--green); }
+  .audit-body { flex: 1; }
+  .audit-text { color: var(--text-primary); }
+  .audit-by { color: var(--text-muted); margin-top: 1px; }
+  .audit-time { font-size: 10px; color: var(--text-muted); white-space: nowrap; }
+
+  /* ── COVER LETTER PANEL ── */
+  .cl-panel { padding: 14px 16px; }
+  .cl-textarea {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 10px 12px;
+    font-family: var(--font-body);
+    font-size: 12px;
+    line-height: 1.7;
+    color: var(--text-primary);
+    resize: none;
+    background: var(--surface-2);
+    min-height: 120px;
+  }
+  .cl-actions { display: flex; gap: 6px; margin-top: 8px; }
+  .confidence-badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 10px; font-weight: 500;
+    padding: 3px 8px; border-radius: var(--radius-full);
+  }
+  .conf-high { background: var(--green-light); color: var(--green); }
+  .conf-mid { background: var(--amber-light); color: #B45309; }
+
+  /* ── PIPELINE FUNNEL ── */
+  .funnel-wrap { padding: 14px 16px; }
+  .funnel-stage {
+    display: flex; align-items: center; gap: 10px;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .funnel-stage:last-child { border-bottom: none; }
+  .funnel-name { font-size: 12px; color: var(--text-primary); width: 90px; }
+  .funnel-bar-wrap { flex: 1; height: 16px; background: var(--surface-3); border-radius: var(--radius-sm); overflow: hidden; }
+  .funnel-bar { height: 100%; border-radius: var(--radius-sm); }
+  .funnel-count { font-size: 11px; font-weight: 600; color: var(--text-secondary); width: 24px; text-align: right; }
+
+  /* ── QUESTION CARD ── */
+  .q-card { padding: 12px 14px; border-bottom: 1px solid var(--border); }
+  .q-card:last-child { border-bottom: none; }
+  .q-num {
+    font-size: 10px; font-weight: 600;
+    color: var(--accent-main);
+    text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;
+  }
+  .q-text { font-size: 12px; color: var(--text-primary); line-height: 1.5; }
+  .q-why { font-size: 10px; color: var(--text-muted); margin-top: 4px; font-style: italic; }
+
+  /* ── PROFILE UPLOAD ── */
+  .upload-zone {
+    border: 1.5px dashed var(--border-strong);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    text-align: center;
+    background: var(--surface-2);
+    cursor: pointer;
+    margin: 12px;
+  }
+  .upload-icon { font-size: 28px; margin-bottom: 8px; }
+  .upload-text { font-size: 13px; font-weight: 500; color: var(--text-primary); }
+  .upload-sub { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+
+  /* ── SKILL CHIPS ── */
+  .skill-chips { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 14px 12px; }
+  .skill-chip {
+    font-size: 11px; font-weight: 500;
+    padding: 4px 10px;
+    border-radius: var(--radius-full);
+    background: var(--accent-light);
+    color: var(--accent-main);
+    border: 1px solid rgba(99,91,255,0.2);
+  }
+
+  /* ── JD EDITOR ── */
+  .jd-form { padding: 12px 14px; }
+  .jd-field { margin-bottom: 10px; }
+  .field-label { font-size: 11px; font-weight: 500; color: var(--text-muted); margin-bottom: 4px; }
+  .field-input {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 7px 10px;
+    font-family: var(--font-body);
+    font-size: 12px; color: var(--text-primary);
+    background: var(--surface);
+  }
+  .field-input:focus { outline: none; border-color: var(--accent-main); }
+  .field-textarea { min-height: 80px; resize: none; }
+
+  /* ── TABS ── */
+  .inner-tabs {
+    display: flex; gap: 0;
+    border-bottom: 1px solid var(--border);
+    padding: 0 14px;
+    background: var(--surface);
+  }
+  .inner-tab {
+    font-size: 12px; font-weight: 500;
+    padding: 9px 14px;
+    color: var(--text-muted);
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    background: none; border-top: none; border-left: none; border-right: none;
+    transition: all 0.15s;
+    margin-bottom: -1px;
+  }
+  .inner-tab.active { color: var(--accent-main); border-bottom-color: var(--accent-main); }
+
+  /* ── SECTION WRAPPER ── */
+  .ds-section {
+    background: var(--surface);
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--border);
+    padding: 20px 24px;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow-card);
+  }
+  .ds-section-title {
+    font-family: var(--font-display);
+    font-size: 14px; font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 16px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .ds-section-title::before {
+    content: '';
+    display: inline-block;
+    width: 3px; height: 14px;
+    background: var(--accent-main);
+    border-radius: 2px;
+  }
+
+  /* ── COMPONENT GRID ── */
+  .comp-grid { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-start; }
+</style>
+</head>
+<body>
+
+<nav class="app-nav">
+  <div class="nav-logo">Hire<span>Loop</span></div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showScreen('design-system')">Design System</button>
+    <button class="nav-tab" onclick="showScreen('seeker-screens')">Seeker Side</button>
+    <button class="nav-tab" onclick="showScreen('recruiter-screens')">Recruiter Side</button>
+    <button class="nav-tab" onclick="showScreen('flow')">Agent Flow</button>
+  </div>
+  <div class="nav-right">
+    <span class="nav-badge">Figma Reference</span>
+    <span class="nav-badge">v1.0</span>
+  </div>
+</nav>
+
+<div class="main-wrap">
+
+  <!-- ═══════════════════════════════ DESIGN SYSTEM ═══════════════════════════════ -->
+  <div class="screen visible" id="screen-design-system">
+
+    <div class="ds-section">
+      <div class="ds-section-title">Color Palette</div>
+      <p class="section-label">Brand</p>
+      <div class="token-grid">
+        <div class="color-chip"><div class="chip-swatch" style="background:#0D0D12"></div><div class="chip-label">Brand 900<div class="chip-hex">#0D0D12</div></div></div>
+        <div class="color-chip"><div class="chip-swatch" style="background:#1A1A26"></div><div class="chip-label">Brand 800<div class="chip-hex">#1A1A26</div></div></div>
+        <div class="color-chip"><div class="chip-swatch" style="background:#3D3D5C"></div><div class="chip-label">Brand 600<div class="chip-hex">#3D3D5C</div></div></div>
+        <div class="color-chip"><div class="chip-swatch" style="background:#5C5C8A"></div><div class="chip-label">Brand 500<div class="chip-hex">#5C5C8A</div></div></div>
+        <div class="color-chip"><div class="chip-swatch" style="background:#C4C4E8"></div><div class="chip-label">Brand 200<div class="chip-hex">#C4C4E8</div></div></div>
+        <div class="color-chip"><div class="chip-swatch" style="background:#F4F4FA"></div><div class="chip-label">Brand 50<div class="chip-hex">#F4F4FA</div></div></div>
+      </div>
+      <p class="section-label">Accent & Semantic</p>
+      <div class="token-grid">
+        <div class="color-chip"><div class="chip-swatch" style="background:#635BFF"></div><div class="chip-label">Accent<div class="chip-hex">#635BFF</div></div></div>
+        <div class="color-chip"><div class="chip-swatch" style="background:#EAE9FF"></div><div class="chip-label">Accent Light<div class="chip-hex">#EAE9FF</div></div></div>
+        <div class="color-chip"><div class="chip-swatch" style="background:#0F9D58"></div><div class="chip-label">Success<div class="chip-hex">#0F9D58</div></div></div>
+        <div class="color-chip"><div class="chip-swatch" style="background:#F59E0B"></div><div class="chip-label">Warning<div class="chip-hex">#F59E0B</div></div></div>
+        <div class="color-chip"><div class="chip-swatch" style="background:#EF4444"></div><div class="chip-label">Danger<div class="chip-hex">#EF4444</div></div></div>
+        <div class="color-chip"><div class="chip-swatch" style="background:#2563EB"></div><div class="chip-label">Info<div class="chip-hex">#2563EB</div></div></div>
+      </div>
+    </div>
+
+    <div class="ds-section">
+      <div class="ds-section-title">Typography</div>
+      <div class="type-row">
+        <div class="type-meta">Display / 700<br>Syne</div>
+        <div style="font-family:'Syne',sans-serif;font-size:28px;font-weight:700;letter-spacing:-0.5px;color:var(--text-primary)">HireLoop Platform</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">H1 / 600<br>Syne 22px</div>
+        <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:600;color:var(--text-primary)">Job Seeker Dashboard</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">H2 / 600<br>Syne 16px</div>
+        <div style="font-family:'Syne',sans-serif;font-size:16px;font-weight:600;color:var(--text-primary)">Active Applications</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">Body / 400<br>DM Sans 14px</div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:14px;font-weight:400;color:var(--text-primary)">Agent found 12 new jobs matching your profile. Review and approve applications.</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">Caption / 400<br>DM Sans 12px</div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:12px;font-weight:400;color:var(--text-secondary)">Last synced 2 minutes ago · 3 pending approvals</div>
+      </div>
+      <div class="type-row" style="border-bottom:none">
+        <div class="type-meta">Label / 500<br>DM Sans 11px</div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;letter-spacing:0.8px;text-transform:uppercase;color:var(--text-muted)">ACTIVE ROLES</div>
+      </div>
+    </div>
+
+    <div class="ds-section">
+      <div class="ds-section-title">Components</div>
+      <p class="section-label">Buttons</p>
+      <div class="comp-grid" style="margin-bottom:16px">
+        <button class="btn btn-primary">Apply Now</button>
+        <button class="btn btn-ghost">Edit Profile</button>
+        <button class="btn btn-success">✓ Approved</button>
+        <button class="btn btn-danger">Skip Job</button>
+        <button class="btn btn-primary btn-sm">Send</button>
+        <button class="btn btn-ghost btn-sm">Override</button>
+      </div>
+      <p class="section-label">Status Badges</p>
+      <div class="comp-grid" style="margin-bottom:16px">
+        <span class="score-pill score-high">92 match</span>
+        <span class="score-pill score-mid">67 match</span>
+        <span class="score-pill score-low">34 match</span>
+        <span class="confidence-badge conf-high">● High confidence</span>
+        <span class="confidence-badge conf-mid">● Medium confidence</span>
+        <span class="tag match">✓ Python</span>
+        <span class="tag gap">✗ Docker</span>
+        <span class="tag">React</span>
+        <span class="tag">FastAPI</span>
+      </div>
+      <p class="section-label">Skill Chips</p>
+      <div class="skill-chips" style="padding:0; margin-bottom:16px">
+        <span class="skill-chip">LangGraph</span>
+        <span class="skill-chip">FastAPI</span>
+        <span class="skill-chip">Python</span>
+        <span class="skill-chip">Next.js</span>
+        <span class="skill-chip">Gemini API</span>
+        <span class="skill-chip">SQLite</span>
+      </div>
+      <p class="section-label">Icons (SVG system — 18×18)</p>
+      <div class="comp-grid">
+        <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text-muted)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Dashboard
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text-muted)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Search
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text-muted)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> Resume
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text-muted)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg> Candidates
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text-muted)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg> Activity
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text-muted)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/></svg> Agent
+        </div>
+      </div>
+    </div>
+
+    <div class="ds-section">
+      <div class="ds-section-title">Spacing & Radius Tokens</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px">
+        <div style="font-size:12px;color:var(--text-secondary)"><span style="font-weight:500">--radius-sm</span><br>6px — inputs, tags</div>
+        <div style="font-size:12px;color:var(--text-secondary)"><span style="font-weight:500">--radius-md</span><br>10px — cards, buttons</div>
+        <div style="font-size:12px;color:var(--text-secondary)"><span style="font-weight:500">--radius-lg</span><br>16px — panels</div>
+        <div style="font-size:12px;color:var(--text-secondary)"><span style="font-weight:500">--radius-xl</span><br>24px — screen frames</div>
+        <div style="font-size:12px;color:var(--text-secondary)"><span style="font-weight:500">--radius-full</span><br>9999px — pills, avatars</div>
+        <div style="font-size:12px;color:var(--text-secondary)"><span style="font-weight:500">Gap system</span><br>4 / 6 / 8 / 10 / 12 / 16 / 20 / 24px</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ═══════════════════════════════ SEEKER SCREENS ═══════════════════════════════ -->
+  <div class="screen" id="screen-seeker-screens">
+
+    <div class="screens-grid">
+
+      <!-- S1: Profile Upload -->
+      <div>
+        <p class="section-label">S-01 · Resume Upload & Parsing</p>
+        <div class="screen-frame">
+          <div class="screen-bar"><div class="screen-dots"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div></div><div class="screen-title">Seeker · Onboarding</div></div>
+          <div class="screen-body">
+            <div class="app-layout">
+              <div class="sidebar">
+                <div class="sb-icon active"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+                <div class="sb-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+                <div class="sb-spacer"></div>
+              </div>
+              <div class="content-area">
+                <div class="page-header">
+                  <div><div class="page-title">Setup your profile</div><div class="page-subtitle">Step 1 of 3 — Upload resume</div></div>
+                </div>
+                <div class="upload-zone">
+                  <div class="upload-icon">📄</div>
+                  <div class="upload-text">Drop your resume here</div>
+                  <div class="upload-sub">PDF, DOCX — max 5MB</div>
+                  <button class="btn btn-primary" style="margin-top:12px">Choose file</button>
+                </div>
+                <div style="padding: 0 12px 12px">
+                  <div style="background:var(--green-light);border-radius:var(--radius-md);padding:10px 12px">
+                    <div style="font-size:11px;font-weight:600;color:var(--green);margin-bottom:6px">✓ Agent extracted from your resume</div>
+                    <div class="skill-chips" style="padding:0">
+                      <span class="skill-chip">Python</span><span class="skill-chip">LangGraph</span><span class="skill-chip">FastAPI</span><span class="skill-chip">Next.js</span><span class="skill-chip">React</span>
+                    </div>
+                    <div style="font-size:11px;color:var(--text-muted);margin-top:6px">2.3 yrs exp · B.Tech CSE</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- S2: Job Discovery -->
+      <div>
+        <p class="section-label">S-02 · Job Discovery & Fit Scores</p>
+        <div class="screen-frame">
+          <div class="screen-bar"><div class="screen-dots"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div></div><div class="screen-title">Seeker · Job Discovery</div></div>
+          <div class="screen-body">
+            <div class="app-layout">
+              <div class="sidebar">
+                <div class="sb-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+                <div class="sb-icon active"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+                <div class="sb-icon"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+                <div class="sb-spacer"></div>
+              </div>
+              <div class="content-area">
+                <div class="page-header">
+                  <div><div class="page-title">Job Matches</div><div class="page-subtitle">23 jobs found · sorted by fit</div></div>
+                  <button class="btn btn-ghost btn-sm">Filter</button>
+                </div>
+                <div class="job-list" style="padding:8px">
+                  <div class="job-card selected">
+                    <div class="job-top">
+                      <div><div class="job-title-text">AI Engineer</div><div class="job-company">Bhanzu · Bengaluru · ₹18–24L</div></div>
+                      <span class="score-pill score-high">92</span>
+                    </div>
+                    <div class="job-tags">
+                      <span class="tag match">✓ LangGraph</span><span class="tag match">✓ Python</span><span class="tag match">✓ FastAPI</span><span class="tag gap">✗ AWS</span>
+                    </div>
+                    <div style="font-size:10px;color:var(--text-muted);margin-top:6px;font-style:italic">"Strong match — 7/8 required skills. Missing cloud deployment experience."</div>
+                  </div>
+                  <div class="job-card">
+                    <div class="job-top">
+                      <div><div class="job-title-text">Product Designer (AI Tools)</div><div class="job-company">AppsForBharat · Remote · ₹12–18L</div></div>
+                      <span class="score-pill score-high">78</span>
+                    </div>
+                    <div class="job-tags">
+                      <span class="tag match">✓ Figma</span><span class="tag match">✓ UX</span><span class="tag gap">✗ Framer</span>
+                    </div>
+                  </div>
+                  <div class="job-card">
+                    <div class="job-top">
+                      <div><div class="job-title-text">Full Stack Engineer</div><div class="job-company">Deloitte · Hyderabad · ₹14–20L</div></div>
+                      <span class="score-pill score-mid">61</span>
+                    </div>
+                    <div class="job-tags">
+                      <span class="tag match">✓ React</span><span class="tag gap">✗ Java</span><span class="tag gap">✗ Oracle DB</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- S3: Cover Letter Generator -->
+      <div>
+        <p class="section-label">S-03 · Cover Letter — Human-in-Loop</p>
+        <div class="screen-frame">
+          <div class="screen-bar"><div class="screen-dots"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div></div><div class="screen-title">Seeker · Apply</div></div>
+          <div class="screen-body">
+            <div class="app-layout">
+              <div class="sidebar">
+                <div class="sb-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+                <div class="sb-icon active"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+              </div>
+              <div class="content-area">
+                <div class="page-header">
+                  <div><div class="page-title">Review Application</div><div class="page-subtitle">AI Engineer · Bhanzu</div></div>
+                  <span class="confidence-badge conf-high">● High confidence</span>
+                </div>
+                <div class="cl-panel">
+                  <div style="font-size:11px;font-weight:600;color:var(--accent-main);margin-bottom:6px">GENERATED COVER LETTER — edit before sending</div>
+                  <textarea class="cl-textarea">Hi Bhanzu Team,
+
+I've been following Bhanzu's work in edtech AI closely — your math learning platform is a genuinely novel product.
+
+I built CompanyLens, a multi-agent due diligence platform using LangGraph and Gemini that runs 5 parallel research agents. The architecture maps directly to what you're building. I also shipped JobAgent, an agentic application pipeline with Playwright automation.
+
+I'd love to bring that same builder energy to your AI infrastructure.
+
+— Anubhav Raj</textarea>
+                  <div class="cl-actions">
+                    <button class="btn btn-primary">✓ Send Application</button>
+                    <button class="btn btn-ghost">✏ Edit</button>
+                    <button class="btn btn-ghost btn-sm" style="margin-left:auto;color:var(--red)">Skip Job</button>
+                  </div>
+                  <div style="margin-top:8px;padding:8px 10px;background:var(--amber-light);border-radius:var(--radius-md);font-size:11px;color:#B45309">
+                    ⚠ Agent flagged: no AWS experience. Added optional mention of quick-learning track record.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- S4: Application Tracker Kanban -->
+      <div>
+        <p class="section-label">S-04 · Application Tracker Kanban</p>
+        <div class="screen-frame">
+          <div class="screen-bar"><div class="screen-dots"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div></div><div class="screen-title">Seeker · Tracker</div></div>
+          <div class="screen-body">
+            <div class="app-layout">
+              <div class="sidebar">
+                <div class="sb-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+                <div class="sb-icon active"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></div>
+              </div>
+              <div class="content-area">
+                <div class="page-header"><div class="page-title">My Applications</div></div>
+                <div class="kanban">
+                  <div class="kanban-col">
+                    <div class="kanban-head">Applied <span class="k-count">8</span></div>
+                    <div class="kanban-cards">
+                      <div class="k-card"><div class="k-company">Bhanzu</div><div class="k-role">AI Engineer</div><div class="k-date">Today · agent</div></div>
+                      <div class="k-card"><div class="k-company">Razorpay</div><div class="k-role">SDE II</div><div class="k-date">2 days ago</div></div>
+                      <div class="k-card"><div class="k-company">Sarvam AI</div><div class="k-role">ML Engineer</div><div class="k-date">3 days ago</div></div>
+                    </div>
+                  </div>
+                  <div class="kanban-col">
+                    <div class="kanban-head">Screening <span class="k-count">3</span></div>
+                    <div class="kanban-cards">
+                      <div class="k-card" style="border-color:var(--amber);background:var(--amber-light)"><div class="k-company">Deloitte</div><div class="k-role">UX Intern</div><div class="k-date" style="color:var(--amber)">3 Qs pending</div></div>
+                      <div class="k-card"><div class="k-company">Flipkart</div><div class="k-role">PM Intern</div><div class="k-date">HR round</div></div>
+                    </div>
+                  </div>
+                  <div class="kanban-col">
+                    <div class="kanban-head">Interview <span class="k-count">1</span></div>
+                    <div class="kanban-cards">
+                      <div class="k-card" style="border-color:var(--green);background:var(--green-light)"><div class="k-company">Pharmacoevi.</div><div class="k-role">AI Sciences SE</div><div class="k-date" style="color:var(--green)">Round 2 ✓</div></div>
+                    </div>
+                  </div>
+                  <div class="kanban-col">
+                    <div class="kanban-head">Closed <span class="k-count">4</span></div>
+                    <div class="kanban-cards">
+                      <div class="k-card" style="opacity:0.6"><div class="k-company">TCS</div><div class="k-role">Developer</div><div class="k-date">Rejected</div></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- S5: Agent Activity Feed -->
+      <div>
+        <p class="section-label">S-05 · Agent Activity Feed (live)</p>
+        <div class="screen-frame">
+          <div class="screen-bar"><div class="screen-dots"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div></div><div class="screen-title">Seeker · Agent Feed</div></div>
+          <div class="screen-body">
+            <div class="app-layout">
+              <div class="sidebar">
+                <div class="sb-icon active"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+              </div>
+              <div class="content-area">
+                <div class="page-header">
+                  <div><div class="page-title">Agent Activity</div><div class="page-subtitle">SeekerAgent is running</div></div>
+                  <span style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--green)"><span class="pulse" style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--green)"></span>Live</span>
+                </div>
+                <div class="agent-feed">
+                  <div class="feed-item">
+                    <div class="feed-line"><div class="feed-dot pulse" style="background:var(--accent-main)"></div><div class="feed-connector"></div></div>
+                    <div class="feed-content"><div class="feed-action">Scoring 23 jobs against your profile</div><div class="feed-detail">Using Gemini 1.5 Flash · key_2</div><div class="feed-time">Just now</div></div>
+                  </div>
+                  <div class="feed-item">
+                    <div class="feed-line"><div class="feed-dot" style="background:var(--green)"></div><div class="feed-connector"></div></div>
+                    <div class="feed-content"><div class="feed-action">Cover letter written for Bhanzu AI Engineer</div><div class="feed-detail">Score: 92/100 · Awaiting your approval</div><div class="feed-time">2 min ago</div></div>
+                  </div>
+                  <div class="feed-item">
+                    <div class="feed-line"><div class="feed-dot" style="background:var(--green)"></div><div class="feed-connector"></div></div>
+                    <div class="feed-content"><div class="feed-action">Resume parsed successfully</div><div class="feed-detail">12 skills · 2.3 yrs · CSE background detected</div><div class="feed-time">8 min ago</div></div>
+                  </div>
+                  <div class="feed-item">
+                    <div class="feed-line"><div class="feed-dot" style="background:var(--text-muted)"></div></div>
+                    <div class="feed-content"><div class="feed-action">Job search initiated</div><div class="feed-detail">Query: "AI Engineer Bengaluru" · 23 results</div><div class="feed-time">10 min ago</div></div>
+                  </div>
+                </div>
+                <div style="padding:10px 12px;border-top:1px solid var(--border);display:flex;gap:6px">
+                  <button class="btn btn-ghost btn-sm">⏸ Pause agent</button>
+                  <button class="btn btn-ghost btn-sm">↩ Undo last</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- S6: Seeker Dashboard Overview -->
+      <div>
+        <p class="section-label">S-06 · Seeker Dashboard</p>
+        <div class="screen-frame">
+          <div class="screen-bar"><div class="screen-dots"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div></div><div class="screen-title">Seeker · Dashboard</div></div>
+          <div class="screen-body">
+            <div class="app-layout">
+              <div class="sidebar">
+                <div class="sb-icon active"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+                <div class="sb-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+                <div class="sb-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></div>
+                <div class="sb-icon"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+              </div>
+              <div class="content-area">
+                <div class="stats-row">
+                  <div class="stat-cell"><div class="stat-num">23</div><div class="stat-label">Jobs matched</div><span class="stat-delta delta-up">+8 today</span></div>
+                  <div class="stat-cell"><div class="stat-num">12</div><div class="stat-label">Applied</div><span class="stat-delta delta-up">+3 today</span></div>
+                  <div class="stat-cell"><div class="stat-num">3</div><div class="stat-label">In screening</div></div>
+                  <div class="stat-cell"><div class="stat-num">1</div><div class="stat-label">Interview</div><span class="stat-delta delta-up">↑ new</span></div>
+                </div>
+                <div style="padding:12px">
+                  <div style="font-size:11px;font-weight:600;color:var(--text-muted);letter-spacing:0.5px;text-transform:uppercase;margin-bottom:8px">Pending approvals</div>
+                  <div class="job-card" style="border-color:var(--accent-main);background:var(--accent-light)">
+                    <div class="job-top">
+                      <div><div class="job-title-text">AI Engineer — Bhanzu</div><div class="job-company">Cover letter ready · agent is waiting for you</div></div>
+                      <button class="btn btn-primary btn-sm">Review →</button>
+                    </div>
+                  </div>
+                  <div style="font-size:11px;font-weight:600;color:var(--text-muted);letter-spacing:0.5px;text-transform:uppercase;margin:10px 0 8px">Top matches today</div>
+                  <div class="job-card">
+                    <div class="job-top"><div><div class="job-title-text">ML Engineer — Sarvam AI</div><div class="job-company">Remote · ₹20–28L</div></div><span class="score-pill score-high">88</span></div>
+                  </div>
+                  <div class="job-card" style="margin-top:6px">
+                    <div class="job-top"><div><div class="job-title-text">Product Designer — Groww</div><div class="job-company">Bengaluru · ₹14–20L</div></div><span class="score-pill score-mid">71</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════ RECRUITER SCREENS ═══════════════════════════════ -->
+  <div class="screen" id="screen-recruiter-screens">
+
+    <div class="screens-grid">
+
+      <!-- R1: Job Post Creator -->
+      <div>
+        <p class="section-label">R-01 · Create Job Post</p>
+        <div class="screen-frame">
+          <div class="screen-bar"><div class="screen-dots"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div></div><div class="screen-title">Recruiter · New Job Post</div></div>
+          <div class="screen-body">
+            <div class="app-layout">
+              <div class="sidebar">
+                <div class="sb-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg></div>
+                <div class="sb-icon active"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></div>
+              </div>
+              <div class="content-area">
+                <div class="page-header"><div class="page-title">Post a Job</div><button class="btn btn-primary btn-sm">Publish →</button></div>
+                <div class="jd-form">
+                  <div class="jd-field"><div class="field-label">Job Title</div><input class="field-input" value="AI Engineer" type="text"></div>
+                  <div class="jd-field"><div class="field-label">Company</div><input class="field-input" value="Bhanzu" type="text"></div>
+                  <div class="jd-field"><div class="field-label">Job Description</div><textarea class="field-input field-textarea">We're looking for an AI Engineer to build intelligent learning experiences using LangGraph and Gemini. You'll design and ship multi-agent pipelines, integrate real-time data, and own the AI backend from prototype to production.</textarea></div>
+                  <div style="background:var(--green-light);border-radius:var(--radius-md);padding:10px 12px;margin-top:4px">
+                    <div style="font-size:11px;font-weight:600;color:var(--green);margin-bottom:4px">✓ Agent parsed requirements</div>
+                    <div class="job-tags">
+                      <span class="tag match">LangGraph</span><span class="tag match">Python</span><span class="tag match">Gemini API</span><span class="tag match">FastAPI</span><span class="tag" style="border-style:dashed">Docker (nice)</span><span class="tag" style="border-style:dashed">AWS (nice)</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- R2: Candidate Pipeline -->
+      <div>
+        <p class="section-label">R-02 · Candidate Pipeline</p>
+        <div class="screen-frame">
+          <div class="screen-bar"><div class="screen-dots"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div></div><div class="screen-title">Recruiter · Candidates</div></div>
+          <div class="screen-body">
+            <div class="app-layout">
+              <div class="sidebar">
+                <div class="sb-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg></div>
+                <div class="sb-icon active"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div>
+              </div>
+              <div class="content-area">
+                <div class="page-header">
+                  <div><div class="page-title">AI Engineer · 47 applicants</div><div class="page-subtitle">Agent screened all · ranked top 10</div></div>
+                  <button class="btn btn-ghost btn-sm">Filter</button>
+                </div>
+                <div class="inner-tabs">
+                  <button class="inner-tab active">Top 10</button>
+                  <button class="inner-tab">All</button>
+                  <button class="inner-tab">Shortlisted</button>
+                </div>
+                <div class="candidate-list">
+                  <div class="cand-row">
+                    <div class="rank-badge rank-1">1</div>
+                    <div class="cand-avatar">AR</div>
+                    <div><div class="cand-name">Anubhav Raj</div><div class="cand-role">2.3 yrs · LangGraph, FastAPI, Next.js</div></div>
+                    <div class="cand-meta">
+                      <span class="score-pill score-high">92</span>
+                      <button class="override-btn">Override</button>
+                    </div>
+                  </div>
+                  <div class="cand-row">
+                    <div class="rank-badge rank-2">2</div>
+                    <div class="cand-avatar" style="background:var(--blue-light);color:var(--blue)">PS</div>
+                    <div><div class="cand-name">Priya Sharma</div><div class="cand-role">3.1 yrs · Python, TensorFlow, GCP</div></div>
+                    <div class="cand-meta">
+                      <span class="score-pill score-high">84</span>
+                      <button class="override-btn">Override</button>
+                    </div>
+                  </div>
+                  <div class="cand-row">
+                    <div class="rank-badge rank-3">3</div>
+                    <div class="cand-avatar" style="background:var(--amber-light);color:#B45309">RK</div>
+                    <div><div class="cand-name">Rohit Kumar</div><div class="cand-role">4 yrs · ML, Spark, Databricks</div></div>
+                    <div class="cand-meta">
+                      <span class="score-pill score-mid">71</span>
+                      <button class="override-btn">Override</button>
+                    </div>
+                  </div>
+                  <div class="cand-row" style="opacity:0.6">
+                    <div class="rank-badge rank-3" style="background:var(--surface-3)">4</div>
+                    <div class="cand-avatar" style="background:var(--surface-3);color:var(--text-muted)">MV</div>
+                    <div><div class="cand-name">Meera Varma</div><div class="cand-role">1 yr · Node.js, React</div></div>
+                    <div class="cand-meta"><span class="score-pill score-low">44</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- R3: Candidate Scorecard -->
+      <div>
+        <p class="section-label">R-03 · Candidate Scorecard</p>
+        <div class="screen-frame">
+          <div class="screen-bar"><div class="screen-dots"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div></div><div class="screen-title">Recruiter · Scorecard</div></div>
+          <div class="screen-body">
+            <div class="app-layout">
+              <div class="sidebar">
+                <div class="sb-icon active"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
+              </div>
+              <div class="content-area">
+                <div class="page-header">
+                  <div style="display:flex;align-items:center;gap:10px">
+                    <div class="cand-avatar" style="width:36px;height:36px;font-size:13px">AR</div>
+                    <div><div class="page-title">Anubhav Raj</div><div class="page-subtitle">AI Engineer applicant</div></div>
+                  </div>
+                  <span class="confidence-badge conf-high">● Strong Recommend</span>
+                </div>
+                <div class="scorecard">
+                  <div class="score-ring-wrap">
+                    <div class="score-ring">
+                      <svg width="64" height="64" viewBox="0 0 64 64">
+                        <circle cx="32" cy="32" r="26" fill="none" stroke="#E4E4EF" stroke-width="6"/>
+                        <circle cx="32" cy="32" r="26" fill="none" stroke="#635BFF" stroke-width="6" stroke-dasharray="150 164" stroke-dashoffset="41" stroke-linecap="round"/>
+                      </svg>
+                      <div class="ring-text"><span class="ring-num">92</span><span class="ring-sub">/100</span></div>
+                    </div>
+                    <div class="score-breakdown">
+                      <div class="breakdown-row"><span class="breakdown-label">Skills match</span><div class="breakdown-bar"><div class="breakdown-fill" style="width:95%;background:var(--accent-main)"></div></div><span class="breakdown-val">95</span></div>
+                      <div class="breakdown-row"><span class="breakdown-label">Experience</span><div class="breakdown-bar"><div class="breakdown-fill" style="width:85%;background:var(--green)"></div></div><span class="breakdown-val">85</span></div>
+                      <div class="breakdown-row"><span class="breakdown-label">Projects</span><div class="breakdown-bar"><div class="breakdown-fill" style="width:98%;background:var(--green)"></div></div><span class="breakdown-val">98</span></div>
+                      <div class="breakdown-row"><span class="breakdown-label">Cloud/Infra</span><div class="breakdown-bar"><div class="breakdown-fill" style="width:55%;background:var(--amber)"></div></div><span class="breakdown-val">55</span></div>
+                    </div>
+                  </div>
+                  <div style="display:flex;gap:6px;margin-bottom:10px">
+                    <div style="flex:1;background:var(--green-light);border-radius:var(--radius-md);padding:8px 10px">
+                      <div style="font-size:10px;font-weight:600;color:var(--green);margin-bottom:4px">GREEN FLAGS</div>
+                      <div style="font-size:11px;color:var(--text-primary)">• Shipped CompanyLens (production)</div>
+                      <div style="font-size:11px;color:var(--text-primary)">• LangGraph + Gemini expertise</div>
+                      <div style="font-size:11px;color:var(--text-primary)">• Full-stack + AI combined</div>
+                    </div>
+                    <div style="flex:1;background:var(--red-light);border-radius:var(--radius-md);padding:8px 10px">
+                      <div style="font-size:10px;font-weight:600;color:var(--red);margin-bottom:4px">GAPS</div>
+                      <div style="font-size:11px;color:var(--text-primary)">• No AWS/GCP experience</div>
+                      <div style="font-size:11px;color:var(--text-primary)">• &lt;1 yr professional exp</div>
+                    </div>
+                  </div>
+                  <div style="display:flex;gap:6px">
+                    <button class="btn btn-primary" style="flex:1">Shortlist</button>
+                    <button class="btn btn-ghost" style="flex:1">Send Questions</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- R4: Screening Questions -->
+      <div>
+        <p class="section-label">R-04 · AI-Generated Screening Questions</p>
+        <div class="screen-frame">
+          <div class="screen-bar"><div class="screen-dots"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div></div><div class="screen-title">Recruiter · Questions</div></div>
+          <div class="screen-body">
+            <div class="app-layout">
+              <div class="sidebar">
+                <div class="sb-icon active"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+              </div>
+              <div class="content-area">
+                <div class="page-header">
+                  <div><div class="page-title">Screening Qs · Anubhav</div><div class="page-subtitle">AI generated · review before sending</div></div>
+                  <button class="btn btn-primary btn-sm">Send →</button>
+                </div>
+                <div class="q-card">
+                  <div class="q-num">Question 1</div>
+                  <div class="q-text">Walk me through the agent graph architecture in CompanyLens — how did you handle parallel tool calls and result aggregation?</div>
+                  <div class="q-why">Why asked: probes LangGraph depth, not just familiarity</div>
+                </div>
+                <div class="q-card">
+                  <div class="q-num">Question 2</div>
+                  <div class="q-text">You listed Gemini API free tier as your constraint. How would your architecture change with a paid API and proper infrastructure?</div>
+                  <div class="q-why">Why asked: tests scalability thinking beyond portfolio scope</div>
+                </div>
+                <div class="q-card">
+                  <div class="q-num">Question 3</div>
+                  <div class="q-text">Describe a specific bug in JobAgent that took you more than 2 hours to fix. What was your debugging process?</div>
+                  <div class="q-why">Why asked: reveals real problem-solving, not just happy path</div>
+                </div>
+                <div style="padding:10px 14px;display:flex;gap:6px">
+                  <button class="btn btn-ghost btn-sm">✏ Edit all</button>
+                  <button class="btn btn-ghost btn-sm">↻ Regenerate</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- R5: Audit Log -->
+      <div>
+        <p class="section-label">R-05 · Audit Log (every agent decision)</p>
+        <div class="screen-frame">
+          <div class="screen-bar"><div class="screen-dots"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div></div><div class="screen-title">Recruiter · Audit Log</div></div>
+          <div class="screen-body">
+            <div class="app-layout">
+              <div class="sidebar">
+                <div class="sb-icon active"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+              </div>
+              <div class="content-area">
+                <div class="page-header"><div><div class="page-title">Audit Trail</div><div class="page-subtitle">All AI + human actions</div></div></div>
+                <div class="audit-log">
+                  <div class="audit-row">
+                    <div class="audit-icon human-action">H</div>
+                    <div class="audit-body"><div class="audit-text">Priya overrode rank: Anubhav #3 → #1</div><div class="audit-by">Priya Menon · Hiring Manager</div></div>
+                    <div class="audit-time">2 min ago</div>
+                  </div>
+                  <div class="audit-row">
+                    <div class="audit-icon ai-action">AI</div>
+                    <div class="audit-body"><div class="audit-text">Ranked 47 candidates — top score 92 (Anubhav Raj)</div><div class="audit-by">RecruiterAgent · gemini-1.5-flash</div></div>
+                    <div class="audit-time">15 min ago</div>
+                  </div>
+                  <div class="audit-row">
+                    <div class="audit-icon ai-action">AI</div>
+                    <div class="audit-body"><div class="audit-text">Screening questions generated for top 10 candidates</div><div class="audit-by">RecruiterAgent · generate_questions node</div></div>
+                    <div class="audit-time">16 min ago</div>
+                  </div>
+                  <div class="audit-row">
+                    <div class="audit-icon ai-action">AI</div>
+                    <div class="audit-body"><div class="audit-text">JD parsed: 4 required skills, 2 nice-to-have extracted</div><div class="audit-by">RecruiterAgent · parse_jd node</div></div>
+                    <div class="audit-time">1 hr ago</div>
+                  </div>
+                  <div class="audit-row">
+                    <div class="audit-icon human-action">H</div>
+                    <div class="audit-body"><div class="audit-text">Job post published: AI Engineer · Bhanzu</div><div class="audit-by">Priya Menon · Recruiter</div></div>
+                    <div class="audit-time">2 hr ago</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- R6: Recruiter Dashboard -->
+      <div>
+        <p class="section-label">R-06 · Recruiter Dashboard</p>
+        <div class="screen-frame">
+          <div class="screen-bar"><div class="screen-dots"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div></div><div class="screen-title">Recruiter · Dashboard</div></div>
+          <div class="screen-body">
+            <div class="app-layout">
+              <div class="sidebar">
+                <div class="sb-icon active"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg></div>
+                <div class="sb-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
+                <div class="sb-icon"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+              </div>
+              <div class="content-area">
+                <div class="stats-row">
+                  <div class="stat-cell"><div class="stat-num">47</div><div class="stat-label">Applications</div><span class="stat-delta delta-up">+12 today</span></div>
+                  <div class="stat-cell"><div class="stat-num">10</div><div class="stat-label">Shortlisted</div></div>
+                  <div class="stat-cell"><div class="stat-num">3</div><div class="stat-label">Interviews</div></div>
+                  <div class="stat-cell"><div class="stat-num">1</div><div class="stat-label">Offer sent</div></div>
+                </div>
+                <div style="padding:12px">
+                  <div style="font-size:11px;font-weight:600;color:var(--text-muted);letter-spacing:0.5px;text-transform:uppercase;margin-bottom:8px">Funnel · AI Engineer</div>
+                  <div class="funnel-wrap" style="padding:0">
+                    <div class="funnel-stage"><span class="funnel-name">Applied</span><div class="funnel-bar-wrap"><div class="funnel-bar" style="width:100%;background:var(--brand-200)"></div></div><span class="funnel-count">47</span></div>
+                    <div class="funnel-stage"><span class="funnel-name">AI Screened</span><div class="funnel-bar-wrap"><div class="funnel-bar" style="width:100%;background:var(--brand-300)"></div></div><span class="funnel-count">47</span></div>
+                    <div class="funnel-stage"><span class="funnel-name">Top 10</span><div class="funnel-bar-wrap"><div class="funnel-bar" style="width:21%;background:var(--accent-main)"></div></div><span class="funnel-count">10</span></div>
+                    <div class="funnel-stage"><span class="funnel-name">Shortlisted</span><div class="funnel-bar-wrap"><div class="funnel-bar" style="width:13%;background:var(--green)"></div></div><span class="funnel-count">6</span></div>
+                    <div class="funnel-stage"><span class="funnel-name">Interview</span><div class="funnel-bar-wrap"><div class="funnel-bar" style="width:6%;background:var(--amber)"></div></div><span class="funnel-count">3</span></div>
+                    <div class="funnel-stage" style="border:none"><span class="funnel-name">Offer</span><div class="funnel-bar-wrap"><div class="funnel-bar" style="width:2%;background:var(--red)"></div></div><span class="funnel-count">1</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════ AGENT FLOW ═══════════════════════════════ -->
+  <div class="screen" id="screen-flow">
+    <div class="ds-section">
+      <div class="ds-section-title">Full Agent Flow — Both Sides</div>
+      <div style="overflow-x:auto">
+        <svg viewBox="0 0 900 460" width="100%" xmlns="http://www.w3.org/2000/svg" style="min-width:700px">
+          <defs>
+            <marker id="arr" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+              <polygon points="0 0, 8 3, 0 6" fill="#9898B8"/>
+            </marker>
+            <marker id="arr-acc" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+              <polygon points="0 0, 8 3, 0 6" fill="#635BFF"/>
+            </marker>
+            <marker id="arr-grn" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+              <polygon points="0 0, 8 3, 0 6" fill="#0F9D58"/>
+            </marker>
+          </defs>
+
+          <!-- Seeker side label -->
+          <rect x="10" y="10" width="420" height="28" rx="6" fill="#EAE9FF"/>
+          <text x="220" y="28" text-anchor="middle" font-family="'Syne',sans-serif" font-size="12" font-weight="600" fill="#635BFF">SEEKER AGENT</text>
+
+          <!-- Recruiter side label -->
+          <rect x="470" y="10" width="420" height="28" rx="6" fill="#E6F5EE"/>
+          <text x="680" y="28" text-anchor="middle" font-family="'Syne',sans-serif" font-size="12" font-weight="600" fill="#0F9D58">RECRUITER AGENT</text>
+
+          <!-- SEEKER NODES -->
+          <rect x="30" y="60" width="110" height="40" rx="8" fill="#635BFF"/>
+          <text x="85" y="77" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" fill="#fff" font-weight="500">Resume Upload</text>
+          <text x="85" y="91" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="9" fill="rgba(255,255,255,0.7)">parse_profile</text>
+
+          <rect x="170" y="60" width="110" height="40" rx="8" fill="#635BFF"/>
+          <text x="225" y="77" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" fill="#fff" font-weight="500">Job Fetcher</text>
+          <text x="225" y="91" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="9" fill="rgba(255,255,255,0.7)">fetch_jobs</text>
+
+          <rect x="310" y="60" width="110" height="40" rx="8" fill="#635BFF"/>
+          <text x="365" y="77" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" fill="#fff" font-weight="500">Fit Scorer</text>
+          <text x="365" y="91" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="9" fill="rgba(255,255,255,0.7)">score_jobs</text>
+
+          <rect x="170" y="130" width="110" height="40" rx="8" fill="#635BFF"/>
+          <text x="225" y="147" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" fill="#fff" font-weight="500">Cover Letter</text>
+          <text x="225" y="161" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="9" fill="rgba(255,255,255,0.7)">write_cover_letter</text>
+
+          <!-- Human checkpoint seeker -->
+          <rect x="30" y="130" width="110" height="40" rx="8" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+          <text x="85" y="147" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" fill="#92400E" font-weight="500">⏸ Approval</text>
+          <text x="85" y="161" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="9" fill="#B45309">human-in-loop</text>
+
+          <rect x="310" y="130" width="110" height="40" rx="8" fill="#635BFF"/>
+          <text x="365" y="147" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" fill="#fff" font-weight="500">Apply</text>
+          <text x="365" y="161" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="9" fill="rgba(255,255,255,0.7)">apply_job</text>
+
+          <!-- SEEKER ARROWS -->
+          <line x1="140" y1="80" x2="168" y2="80" stroke="#9898B8" stroke-width="1.5" marker-end="url(#arr)"/>
+          <line x1="280" y1="80" x2="308" y2="80" stroke="#9898B8" stroke-width="1.5" marker-end="url(#arr)"/>
+          <line x1="365" y1="100" x2="365" y2="128" stroke="#9898B8" stroke-width="1.5" marker-end="url(#arr)"/>
+          <line x1="225" y1="100" x2="225" y2="128" stroke="#9898B8" stroke-width="1.5" marker-end="url(#arr)"/>
+          <line x1="170" y1="150" x2="142" y2="150" stroke="#F59E0B" stroke-width="1.5" marker-end="url(#arr)"/>
+          <line x1="85" y1="170" x2="85" y2="190" stroke="#F59E0B" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <text x="85" y="204" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="9" fill="#B45309">User approves</text>
+          <line x1="310" y1="150" x2="282" y2="150" stroke="#9898B8" stroke-width="1.5" marker-end="url(#arr)"/>
+
+          <!-- Application goes to DB -->
+          <rect x="170" y="210" width="110" height="40" rx="8" fill="#E4E4EF" stroke="#C8C8DF" stroke-width="1"/>
+          <text x="225" y="228" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" fill="#5C5C8A" font-weight="500">SQLite / DB</text>
+          <text x="225" y="242" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="9" fill="#9898B8">application saved</text>
+          <line x1="225" y1="170" x2="225" y2="208" stroke="#9898B8" stroke-width="1.5" marker-end="url(#arr)"/>
+
+          <!-- RECRUITER NODES -->
+          <rect x="490" y="60" width="110" height="40" rx="8" fill="#0F9D58"/>
+          <text x="545" y="77" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" fill="#fff" font-weight="500">JD Parser</text>
+          <text x="545" y="91" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="9" fill="rgba(255,255,255,0.7)">parse_jd</text>
+
+          <rect x="630" y="60" width="110" height="40" rx="8" fill="#0F9D58"/>
+          <text x="685" y="77" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" fill="#fff" font-weight="500">Screener</text>
+          <text x="685" y="91" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="9" fill="rgba(255,255,255,0.7)">screen_candidates</text>
+
+          <rect x="760" y="60" width="110" height="40" rx="8" fill="#0F9D58"/>
+          <text x="815" y="77" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" fill="#fff" font-weight="500">Ranker</text>
+          <text x="815" y="91" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="9" fill="rgba(255,255,255,0.7)">rank_batch</text>
+
+          <rect x="630" y="130" width="110" height="40" rx="8" fill="#0F9D58"/>
+          <text x="685" y="147" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" fill="#fff" font-weight="500">Q Generator</text>
+          <text x="685" y="161" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="9" fill="rgba(255,255,255,0.7)">generate_questions</text>
+
+          <!-- Human checkpoint recruiter -->
+          <rect x="760" y="130" width="110" height="40" rx="8" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+          <text x="815" y="147" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" fill="#92400E" font-weight="500">⏸ Override</text>
+          <text x="815" y="161" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="9" fill="#B45309">human-in-loop</text>
+
+          <rect x="490" y="130" width="110" height="40" rx="8" fill="#0F9D58"/>
+          <text x="545" y="147" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" fill="#fff" font-weight="500">Pipeline Update</text>
+          <text x="545" y="161" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="9" fill="rgba(255,255,255,0.7)">update_pipeline</text>
+
+          <!-- RECRUITER ARROWS -->
+          <line x1="600" y1="80" x2="628" y2="80" stroke="#9898B8" stroke-width="1.5" marker-end="url(#arr)"/>
+          <line x1="740" y1="80" x2="758" y2="80" stroke="#9898B8" stroke-width="1.5" marker-end="url(#arr)"/>
+          <line x1="815" y1="100" x2="815" y2="128" stroke="#9898B8" stroke-width="1.5" marker-end="url(#arr)"/>
+          <line x1="685" y1="100" x2="685" y2="128" stroke="#9898B8" stroke-width="1.5" marker-end="url(#arr)"/>
+          <line x1="760" y1="150" x2="742" y2="150" stroke="#F59E0B" stroke-width="1.5" marker-end="url(#arr)"/>
+          <line x1="630" y1="150" x2="602" y2="150" stroke="#9898B8" stroke-width="1.5" marker-end="url(#arr)"/>
+
+          <!-- DB reads from recruiter -->
+          <rect x="630" y="210" width="110" height="40" rx="8" fill="#E4E4EF" stroke="#C8C8DF" stroke-width="1"/>
+          <text x="685" y="228" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" fill="#5C5C8A" font-weight="500">SQLite / DB</text>
+          <text x="685" y="242" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="9" fill="#9898B8">reads applications</text>
+          <line x1="685" y1="170" x2="685" y2="208" stroke="#9898B8" stroke-width="1.5" marker-end="url(#arr)"/>
+
+          <!-- Bridge: seeker applies → recruiter receives -->
+          <line x1="280" y1="230" x2="628" y2="230" stroke="#635BFF" stroke-width="2" stroke-dasharray="6,4" marker-end="url(#arr-acc)"/>
+          <rect x="390" y="218" width="120" height="18" rx="4" fill="#EAE9FF"/>
+          <text x="450" y="230" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="9" fill="#635BFF" font-weight="600">application flows →</text>
+
+          <!-- Gemini label -->
+          <rect x="340" y="280" width="220" height="28" rx="6" fill="#F4F4FA" stroke="#E4E4EF"/>
+          <text x="450" y="298" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" fill="#5C5C8A" font-weight="500">Gemini 1.5 Flash (free) — key rotation</text>
+
+          <!-- Legend -->
+          <rect x="30" y="360" width="840" height="80" rx="8" fill="#F7F7FB" stroke="#E4E4EF"/>
+          <text x="50" y="378" font-family="'Syne',sans-serif" font-size="11" font-weight="600" fill="#5C5C8A">LEGEND</text>
+          <rect x="50" y="388" width="12" height="12" rx="3" fill="#635BFF"/>
+          <text x="68" y="399" font-family="'DM Sans',sans-serif" font-size="11" fill="#5C5C8A">Seeker Agent node</text>
+          <rect x="200" y="388" width="12" height="12" rx="3" fill="#0F9D58"/>
+          <text x="218" y="399" font-family="'DM Sans',sans-serif" font-size="11" fill="#5C5C8A">Recruiter Agent node</text>
+          <rect x="390" y="388" width="12" height="12" rx="3" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+          <text x="408" y="399" font-family="'DM Sans',sans-serif" font-size="11" fill="#5C5C8A">Human-in-loop checkpoint</text>
+          <rect x="600" y="388" width="12" height="12" rx="3" fill="#E4E4EF"/>
+          <text x="618" y="399" font-family="'DM Sans',sans-serif" font-size="11" fill="#5C5C8A">Shared database</text>
+          <line x1="50" y1="420" x2="70" y2="420" stroke="#635BFF" stroke-width="2" stroke-dasharray="6,4"/>
+          <text x="78" y="424" font-family="'DM Sans',sans-serif" font-size="11" fill="#5C5C8A">Data flows between sides</text>
+        </svg>
+      </div>
+    </div>
+
+    <div class="ds-section">
+      <div class="ds-section-title">Human-in-Loop Checkpoints</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px">
+        <div style="background:var(--amber-light);border-radius:var(--radius-md);padding:12px 14px;border:1px solid rgba(245,158,11,0.3)">
+          <div style="font-size:10px;font-weight:700;letter-spacing:0.5px;color:#B45309;margin-bottom:6px">SEEKER — APPLY</div>
+          <div style="font-size:12px;color:var(--text-primary);margin-bottom:4px">Agent pauses after writing cover letter</div>
+          <div style="font-size:11px;color:var(--text-muted)">User must click "Send" to proceed. Cannot apply without approval.</div>
+        </div>
+        <div style="background:var(--amber-light);border-radius:var(--radius-md);padding:12px 14px;border:1px solid rgba(245,158,11,0.3)">
+          <div style="font-size:10px;font-weight:700;letter-spacing:0.5px;color:#B45309;margin-bottom:6px">SEEKER — UNDO</div>
+          <div style="font-size:12px;color:var(--text-primary);margin-bottom:4px">5-minute undo window after every application</div>
+          <div style="font-size:11px;color:var(--text-muted)">Application marked "pending" for 5 min before final submit.</div>
+        </div>
+        <div style="background:var(--amber-light);border-radius:var(--radius-md);padding:12px 14px;border:1px solid rgba(245,158,11,0.3)">
+          <div style="font-size:10px;font-weight:700;letter-spacing:0.5px;color:#B45309;margin-bottom:6px">RECRUITER — RANK OVERRIDE</div>
+          <div style="font-size:12px;color:var(--text-primary);margin-bottom:4px">Recruiter can reorder AI ranking at any time</div>
+          <div style="font-size:11px;color:var(--text-muted)">Override is logged in audit trail with recruiter name.</div>
+        </div>
+        <div style="background:var(--amber-light);border-radius:var(--radius-md);padding:12px 14px;border:1px solid rgba(245,158,11,0.3)">
+          <div style="font-size:10px;font-weight:700;letter-spacing:0.5px;color:#B45309;margin-bottom:6px">RECRUITER — QUESTIONS</div>
+          <div style="font-size:12px;color:var(--text-primary);margin-bottom:4px">AI questions must be reviewed before sending</div>
+          <div style="font-size:11px;color:var(--text-muted)">Recruiter can edit or regenerate each question.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('visible'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('screen-' + id).classList.add('visible');
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>
